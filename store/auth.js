@@ -1,3 +1,4 @@
+import { Auth } from 'aws-amplify'
 import {
   AUTH_GET_GROUPS,
   AUTH_GET_TOKEN, AUTH_GET_USERID,
@@ -78,9 +79,9 @@ export const mutations = {
 }
 
 export const actions = {
-  /* async */ [AUTH_LOGIN] ({ commit, state, getters }, { email, password }) {
+  async [AUTH_LOGIN] ({ commit, state, getters }, { email, password }) {
     try {
-      const user = {}// TODO Sign in User
+      const user = await Auth.signIn(email, password)
       if (user.challengeName === 'SMS_MFA' ||
         user.challengeName === 'SOFTWARE_TOKEN_MFA') {
         // You need to get the code from the UI inputs
@@ -126,13 +127,15 @@ export const actions = {
     }
     throw new Error('Error on logout')
   },
-  /* async */ [AUTH_REAUTHENTICATE] ({ commit }) {
+  async  [AUTH_REAUTHENTICATE] ({ commit, getters }) {
     try {
-      // TODO Check if Token is still valid, if valid set Token
-      const token = 'Token'
+      const user = await Auth.currentAuthenticatedUser()
+      commit(AUTH_SET_USER, { user, isAuthenticated: true })
+      const token = getters[AUTH_GET_TOKEN]
       this.$axios.setToken(token)
-      commit(AUTH_SET_USER, { user: {}, isAuthenticated: true })
+      console.log(user)
     } catch (e) {
+      console.error(e)
       this.$axios.setToken(false)
       commit(AUTH_SET_USER, { user: null, isAuthenticated: false })
     }

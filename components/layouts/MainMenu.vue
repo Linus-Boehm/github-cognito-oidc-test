@@ -21,10 +21,11 @@
 import MenuUserDropdown from '@/components/layouts/MenuUserDropdown'
 import AuthHelperMixin from '@/mixins/store-helpers/AuthHelperMixin'
 import { STARTPAGE } from '@/routes'
+import Logo from '@/components/layouts/Logo'
 
 export default {
   name: 'MainMenu',
-  components: { MenuUserDropdown },
+  components: { MenuUserDropdown, Logo },
   mixins: [AuthHelperMixin],
   data () {
     return {

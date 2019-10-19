@@ -1,8 +1,15 @@
-
+import dotenv from './dotenv'
+dotenv.config()
 export default {
   mode: 'spa',
+  env: {
+    API_URL: process.env.API_URL,
+    COGNITO_IDENTITY_POOL_ID: process.env.COGNITO_IDENTITY_POOL_ID,
+    COGNITO_USER_POOL_ID: process.env.COGNITO_USER_POOL_ID,
+    COGNITO_USER_POOL_CLIENT_ID: process.env.COGNITO_USER_POOL_CLIENT_ID
+  },
   server: {
-    port: 8080,
+    port: 8888,
     host: '0.0.0.0'
   },
   /*
@@ -34,6 +41,8 @@ export default {
   */
   plugins: [
     { src: '~/plugins/buefy', ssr: true },
+    { src: '~/plugins/axios', ssr: true },
+    { src: '~/plugins/amplify', ssr: true },
     { src: '~/plugins/vue-notifications', ssr: false },
     { src: '~/plugins/vue-vuelidate', ssr: false }
   ],

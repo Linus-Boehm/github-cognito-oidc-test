@@ -16,7 +16,6 @@
       .flex
         b-button(@click="reset()" type="is-primary" :loading="isLoading") Request new password
 
-
 </template>
 
 <script>
